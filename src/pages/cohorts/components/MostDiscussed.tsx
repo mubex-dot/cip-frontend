@@ -1,4 +1,3 @@
-import CustomSelect from "@/components/inputs/CustomSelect";
 import {
   Empty,
   EmptyContent,
@@ -12,11 +11,6 @@ const MostDiscussed = () => {
     <div className="p-4 bg-white border border-border rounded-md flex flex-col gap-2 mt-4">
       <div className="flex justify-between items-center">
         <h6 className="font-semibold">Most Discussed Topics</h6>
-        <CustomSelect
-          label={"All cohorts"}
-          options={[{ name: "All cohorts", value: "all" }]}
-          className="w-30"
-        />
       </div>
       <div className="bg-background">
         <Empty>

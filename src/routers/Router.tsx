@@ -10,6 +10,7 @@ import Dashboard from "@/pages/dashboard/Dashboard";
 import Cohorts from "@/pages/cohorts/Cohorts";
 import SingleCohort from "@/pages/cohorts/SingleCohort";
 import Session from "@/pages/cohorts/Session";
+import Participants from "@/pages/participants/Participants";
 
 type ProtectedRouteProps = {
   user: any;
@@ -121,6 +122,7 @@ const Router = () => {
             <Route path="session" element={<Session />} />
           </Route>
         </Route>
+        <Route path="/participants/1" element={<Participants />} />
       </Route>
       <Route path="*" element={<h1>404, page not found</h1>} />
     </Routes>

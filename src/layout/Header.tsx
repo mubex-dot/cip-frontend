@@ -23,7 +23,7 @@ function Header({ drawerWidth, handleDrawerToggle }: Props) {
     },
     {
       text: "Participants",
-      link: "/participants",
+      link: "/participants/1",
     },
     {
       text: "Settings",
