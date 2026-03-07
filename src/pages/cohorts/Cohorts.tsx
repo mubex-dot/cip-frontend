@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
-import CohortCard from "./CohortCard";
+import CohortCard from "../dashboard/components/CohortCard";
 
-const ActiveCohorts = () => {
+const Cohorts = () => {
   return (
-    <div className="p-4 bg-white border border-border rounded-md flex flex-col gap-2">
+    <div>
       <div className="flex justify-between items-center">
-        <h6 className="font-semibold">Active Cohorts</h6>
+        <div>
+          <h5 className="font-bold">Cohorts</h5>
+          <p className="text-text-feint">View your cohorts here</p>
+        </div>
         <Button>New Cohort</Button>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 mt-4">
         {cohortCardData.map((item) => (
           <CohortCard
             id={item.id}
@@ -55,4 +58,4 @@ const cohortCardData = [
   },
 ];
 
-export default ActiveCohorts;
+export default Cohorts;

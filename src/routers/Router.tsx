@@ -7,6 +7,8 @@ import { useAppDispatch } from "../app/hooks";
 import Layout from "@/layout/Layout";
 import Login from "@/pages/auth/Login";
 import Dashboard from "@/pages/dashboard/Dashboard";
+import Cohorts from "@/pages/cohorts/Cohorts";
+import SingleCohort from "@/pages/cohorts/SingleCohort";
 
 type ProtectedRouteProps = {
   user: any;
@@ -111,6 +113,10 @@ const Router = () => {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/cohorts">
+          <Route index element={<Cohorts />} />
+          <Route path=":cohort_id" element={<SingleCohort />} />
+        </Route>
       </Route>
       <Route path="*" element={<h1>404, page not found</h1>} />
     </Routes>

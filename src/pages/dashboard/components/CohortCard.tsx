@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
 
 type CohortCardProps = {
+  id: number;
   status: string;
   date: string;
   topic: string;
@@ -10,6 +12,7 @@ type CohortCardProps = {
 };
 
 const CohortCard = ({
+  id,
   status,
   date,
   topic,
@@ -17,6 +20,8 @@ const CohortCard = ({
   engagement,
   nextDate,
 }: CohortCardProps) => {
+  const navigate = useNavigate();
+
   return (
     <div className="p-4 bg-white border border-border rounded-md flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -35,7 +40,9 @@ const CohortCard = ({
       </div>
       <div className="flex justify-between items-center">
         <p className="text-xs text-text-feint">Next: {nextDate}</p>
-        <Button variant="outline">View</Button>
+        <Button variant="outline" onClick={() => navigate(`/cohorts/${id}`)}>
+          View
+        </Button>
       </div>
     </div>
   );
