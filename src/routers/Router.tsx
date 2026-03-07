@@ -9,6 +9,7 @@ import Login from "@/pages/auth/Login";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Cohorts from "@/pages/cohorts/Cohorts";
 import SingleCohort from "@/pages/cohorts/SingleCohort";
+import Session from "@/pages/cohorts/Session";
 
 type ProtectedRouteProps = {
   user: any;
@@ -115,7 +116,10 @@ const Router = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cohorts">
           <Route index element={<Cohorts />} />
-          <Route path=":cohort_id" element={<SingleCohort />} />
+          <Route path=":cohort_id">
+            <Route index element={<SingleCohort />} />
+            <Route path="session" element={<Session />} />
+          </Route>
         </Route>
       </Route>
       <Route path="*" element={<h1>404, page not found</h1>} />

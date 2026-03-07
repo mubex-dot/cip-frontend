@@ -1,9 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router";
 
 const menu = [
   { name: "Overview", active: true },
-  { name: "Sessions (12)" },
+  { name: "Sessions (12)", link: "session" },
   { name: "Participants (32)" },
   { name: "Topics & Insights" },
   { name: "Engagement Analytics" },
@@ -11,6 +12,8 @@ const menu = [
 ];
 
 function SideBar() {
+  const navigate = useNavigate();
+
   return (
     <div className="p-4 bg-white border border-border rounded-md flex flex-col gap-2 h-full">
       <ScrollArea className="h-full p-4">
@@ -24,6 +27,7 @@ function SideBar() {
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted",
               )}
+              onClick={() => item.link && navigate(item.link)}
             >
               {item.name}
             </button>
