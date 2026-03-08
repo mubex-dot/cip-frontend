@@ -92,7 +92,8 @@ const Session = () => {
           <div className="flex justify-between items-center">
             <div>
               <h5 className="font-bold">
-                {data.data?.title} ({data.data?.status}){" "}
+                Cohort Intro Call ({data.data?.status}){" "}
+                {/* {data.data?.title} ({data.data?.status}){" "} */}
               </h5>
               {/* <p className="text-text-feint">
                 {data.data.}
