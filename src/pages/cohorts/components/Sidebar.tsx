@@ -61,6 +61,7 @@ function SideBar({ sessions }: SideBarProps) {
                   <button
                     key={session.id}
                     onClick={() => navigate(`session/${session.id}`)}
+                    disabled={session.status !== "completed"}
                     className="w-full text-left px-4 py-2 rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition truncate"
                   >
                     {session.title || `Session ${session.id}`} ({session.status}
