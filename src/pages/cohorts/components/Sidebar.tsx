@@ -63,7 +63,8 @@ function SideBar({ sessions }: SideBarProps) {
                     onClick={() => navigate(`session/${session.id}`)}
                     className="w-full text-left px-4 py-2 rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition truncate"
                   >
-                    {session.title || `Session ${session.id}`}
+                    {session.title || `Session ${session.id}`} ({session.status}
+                    )
                   </button>
                 ))}
               </div>
