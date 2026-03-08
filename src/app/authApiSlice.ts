@@ -9,7 +9,8 @@ import type { RootState } from "./store";
 import { logout } from "@/pages/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_CIP_API,
+  // baseUrl: import.meta.env.VITE_CIP_API,
+  baseUrl: "https://3903-105-117-6-35.ngrok-free.app",
   //credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const access_token = (getState() as RootState).auth.access_token;

@@ -8,7 +8,8 @@ import {
 import { logout } from "@/pages/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: import.meta.env.VITE_CIP_API,
+  // baseUrl: import.meta.env.VITE_CIP_API,
+  baseUrl: "https://3903-105-117-6-35.ngrok-free.app",
 });
 
 // Custom base query function with authentication and token refresh handling.

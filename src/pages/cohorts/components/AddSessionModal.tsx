@@ -34,7 +34,9 @@ const AddSessionModal = ({
     const payload = {
       title: data.title,
       cohort_id: cohortId,
-      file: data.file[0], // React Hook Form captures file input as a FileList
+      // Safely access the first file if it exists
+      file: data.file?.[0] || null,
+      filelink: data.filelink || "",
     };
 
     console.log("Session Upload Payload:", payload);
@@ -65,11 +67,15 @@ const AddSessionModal = ({
               type="file"
               accept="audio/*"
               {...register("file", {
-                required: "An audio file is required",
                 validate: {
-                  isAudio: (files) =>
-                    files?.[0]?.type.startsWith("audio/") ||
-                    "Please upload a valid audio file",
+                  // Only validate type IF a file actually exists
+                  isAudio: (files) => {
+                    if (!files || files.length === 0) return true;
+                    return (
+                      files[0]?.type.startsWith("audio/") ||
+                      "Please upload a valid audio file"
+                    );
+                  },
                 },
               })}
             />
@@ -79,6 +85,17 @@ const AddSessionModal = ({
               </p>
             )}
           </Field>
+
+          <p className="text-center text-xs font-bold text-muted-foreground">
+            OR
+          </p>
+
+          <CustomTextField
+            label="Link to Audio session"
+            placeholder="https://..."
+            register={register("filelink")}
+            errorMessage={errors.filelink}
+          />
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
