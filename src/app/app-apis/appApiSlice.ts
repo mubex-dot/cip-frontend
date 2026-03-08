@@ -119,7 +119,7 @@ const injectedRtkApi = apiSliceWithTags.injectEndpoints({
       CreateCohortApiV1CohortsPostApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/v1/cohorts/`,
+        url: `/api/v1/cohorts`,
         method: "POST",
         body: queryArg.cohortCreate,
       }),
@@ -158,7 +158,7 @@ const injectedRtkApi = apiSliceWithTags.injectEndpoints({
       ListSessionsApiV1SessionsGetApiArg
     >({
       query: (queryArg) => ({
-        url: `/api/v1/sessions/`,
+        url: `/api/v1/sessions`,
         params: {
           skip: queryArg.skip,
           limit: queryArg.limit,
