@@ -5,19 +5,10 @@ import {
   createApi,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import type { RootState } from "./store";
 import { logout } from "@/pages/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: import.meta.env.VITE_CIP_API,
-  //credentials: "include",
-  prepareHeaders: (headers, { getState }) => {
-    const access_token = (getState() as RootState).auth.access_token;
-    if (access_token) {
-      headers.set("authorization", `Bearer ${access_token}`);
-    }
-    return headers;
-  },
 });
 
 // Custom base query function with authentication and token refresh handling.
@@ -42,51 +33,6 @@ const baseQueryWithErrorHandling: BaseQueryFn<
   }
 
   if (result.error && result.error.status === 401) {
-    //handle 401 errors here
-
-    // const refresh_token = (api.getState() as RootState).auth.refresh_token;
-
-    // if (refresh_token) {
-    //   const authApiUrl = import.meta.env.VITE_CIP_API;
-    //   try {
-    //     const refreshRequest = await fetch(`${authApiUrl}/refresh`, {
-    //       method: "POST",
-    //       headers: {
-    //         authorization: `Bearer ${refresh_token}`,
-    //       },
-    //     });
-
-    //     const refreshResult = await refreshRequest.json();
-
-    //     if (!refreshRequest.ok) {
-    //       throw new Error("Failed to refresh token");
-    //     }
-
-    //     if (refreshResult.access_token) {
-    //       // set token in local storage
-    //       localStorage.setItem(
-    //         "access_token",
-    //         JSON.stringify({
-    //           access_token: refreshResult.access_token,
-    //         }),
-    //       );
-
-    //       //set token in the state
-    //       api.dispatch(
-    //         setAccessToken({ access_token: refreshResult.access_token }),
-    //       );
-
-    //       // Retry the initial query with the refreshed token.
-    //       result = await baseQuery(args, api, extraOptions);
-    //     }
-    //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    //   } catch (error) {
-    //     alert("Session expired, Please signin to continue");
-    //     api.dispatch(logout());
-    //   }
-    // } else {
-    //   //log the user out if you cant find a refresh token
-    // }
     alert("Session expired, Please signin to continue");
     api.dispatch(logout());
 

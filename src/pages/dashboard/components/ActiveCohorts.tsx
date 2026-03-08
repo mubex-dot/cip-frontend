@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import CohortCard from "./CohortCard";
+import { useListCohortsApiV1CohortsGetQuery } from "@/app/app-apis/appApiSlice";
 
 const ActiveCohorts = () => {
+  const { data } = useListCohortsApiV1CohortsGetQuery({});
+  console.log(data);
+
   return (
     <div className="p-4 bg-white border border-border rounded-md flex flex-col gap-2">
       <div className="flex justify-between items-center">
