@@ -61,7 +61,7 @@ const AddSessionModal = ({
           />
 
           <Field>
-            <FieldLabel htmlFor="file">Upload Audio Session</FieldLabel>
+            <FieldLabel htmlFor="file">Upload Sesion recording</FieldLabel>
             <Input
               id="file"
               type="file"
@@ -91,7 +91,7 @@ const AddSessionModal = ({
           </p>
 
           <CustomTextField
-            label="Link to Audio session"
+            label="Add to live meeting"
             placeholder="https://..."
             register={register("filelink")}
             errorMessage={errors.filelink}
