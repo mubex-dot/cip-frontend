@@ -44,7 +44,7 @@ function Header({ drawerWidth, handleDrawerToggle }: Props) {
       className="fixed shadow-none bg-[#FFFFFF] border-b border-[#E7E7E7] py-3 px-4 w-full sm:w-[calc(100%-var(--drawer-width))] sm:ml-(--drawer-width) z-999"
     >
       <div className="w-full flex justify-between items-center">
-        <h6 className="font-bold">Cohort Intelligence</h6>
+        <h6 className="font-bold">vCohort</h6>
         <ul className="flex items-center gap-10">
           {navItems.map((item, index) => {
             return (

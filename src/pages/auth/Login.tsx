@@ -55,7 +55,7 @@ const Login = () => {
         <div className="w-1/3 text-center">
           <div className="flex flex-col gap-4 items-center justify-center">
             <div className="h-16 w-16 bg-primary rounded-md"></div>
-            <h4 className="font-bold font-secondary">Cohort Intelligence</h4>
+            <h4 className="font-bold font-secondary">vCohort</h4>
             <p className="text-text-feint">
               AI-powered conversation insights for your programs
             </p>
