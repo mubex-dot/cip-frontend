@@ -9,19 +9,19 @@ type Participant = {
 
 const participants: Participant[] = [
   {
-    name: "Sarah M.",
+    name: "Umar Mukhtar",
     engagement: ["high", "high", "medium", "high", "high", "medium", "high"],
   },
   {
-    name: "David K.",
+    name: "Farouk Kabir",
     engagement: ["medium", "high", "high", "high", "medium", "high", "high"],
   },
   {
-    name: "Michael C.",
+    name: "Usman Bashir",
     engagement: ["high", "low", "none", "low", "low", "none", "low"],
   },
   {
-    name: "Emma R.",
+    name: "Abdul Bashir",
     engagement: ["medium", "medium", "low", "low", "low", "low", "low"],
   },
 ];

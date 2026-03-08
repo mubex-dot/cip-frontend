@@ -38,7 +38,7 @@ const Dashboard = () => {
   return (
     <div>
       <div>
-        <h5 className="font-bold">Welcome back, Sarah</h5>
+        <h5 className="font-bold">Welcome back, Skillup Kopa</h5>
         <p className="text-text-feint">
           Here's what's happening with your programs today
         </p>
