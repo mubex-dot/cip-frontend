@@ -6,8 +6,7 @@ type CohortCardProps = {
   status: string;
   date: string;
   topic: string;
-  participants: string;
-  engagement: string;
+  description: string;
   nextDate: string;
 };
 
@@ -16,8 +15,7 @@ const CohortCard = ({
   status,
   date,
   topic,
-  participants,
-  engagement,
+  description,
   nextDate,
 }: CohortCardProps) => {
   const navigate = useNavigate();
@@ -33,10 +31,8 @@ const CohortCard = ({
         <p className="text-xs text-text-feint">{date}</p>
       </div>
       <div>
-        <p className="font-semibold">{topic}</p>
-        <p className="text-xs text-text-feint">
-          {participants} participants • {engagement} engagement
-        </p>
+        <p className="font-semibold capitalize">{topic}</p>
+        <p className="text-xs text-text-feint capitalize">{description}</p>
       </div>
       <div className="flex justify-between items-center">
         <p className="text-xs text-text-feint">Next: {nextDate}</p>

@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cipApiSlice as api } from "../cipApiSlice";
-const injectedRtkApi = api.injectEndpoints({
+
+const apiSliceWithTags = api.enhanceEndpoints({
+  addTagTypes: ["cohorts", "participants", "sessions"],
+});
+
+const injectedRtkApi = apiSliceWithTags.injectEndpoints({
   endpoints: (build) => ({
     signupApiV1AuthSignupPost: build.mutation<
       SignupApiV1AuthSignupPostApiResponse,
@@ -107,6 +112,7 @@ const injectedRtkApi = api.injectEndpoints({
           organization_id: queryArg.organizationId,
         },
       }),
+      providesTags: ["cohorts"],
     }),
     createCohortApiV1CohortsPost: build.mutation<
       CreateCohortApiV1CohortsPostApiResponse,
@@ -117,12 +123,14 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
         body: queryArg.cohortCreate,
       }),
+      invalidatesTags: ["cohorts"],
     }),
     getCohortApiV1CohortsCohortIdGet: build.query<
       GetCohortApiV1CohortsCohortIdGetApiResponse,
       GetCohortApiV1CohortsCohortIdGetApiArg
     >({
       query: (queryArg) => ({ url: `/api/v1/cohorts/${queryArg.cohortId}` }),
+      providesTags: ["cohorts"],
     }),
     updateCohortApiV1CohortsCohortIdPatch: build.mutation<
       UpdateCohortApiV1CohortsCohortIdPatchApiResponse,
@@ -133,6 +141,7 @@ const injectedRtkApi = api.injectEndpoints({
         method: "PATCH",
         body: queryArg.cohortUpdate,
       }),
+      invalidatesTags: ["cohorts"],
     }),
     deleteCohortApiV1CohortsCohortIdDelete: build.mutation<
       DeleteCohortApiV1CohortsCohortIdDeleteApiResponse,
@@ -142,6 +151,7 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/api/v1/cohorts/${queryArg.cohortId}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["cohorts"],
     }),
     listSessionsApiV1SessionsGet: build.query<
       ListSessionsApiV1SessionsGetApiResponse,
@@ -155,12 +165,14 @@ const injectedRtkApi = api.injectEndpoints({
           cohort_id: queryArg.cohortId,
         },
       }),
+      providesTags: ["sessions"],
     }),
     getSessionApiV1SessionsSessionIdGet: build.query<
       GetSessionApiV1SessionsSessionIdGetApiResponse,
       GetSessionApiV1SessionsSessionIdGetApiArg
     >({
       query: (queryArg) => ({ url: `/api/v1/sessions/${queryArg.sessionId}` }),
+      providesTags: ["sessions"],
     }),
     uploadSessionApiV1SessionsUploadPost: build.mutation<
       UploadSessionApiV1SessionsUploadPostApiResponse,
@@ -171,6 +183,7 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
         body: queryArg.bodyUploadSessionApiV1SessionsUploadPost,
       }),
+      invalidatesTags: ["sessions"],
     }),
     importSessionUrlApiV1SessionsUrlPost: build.mutation<
       ImportSessionUrlApiV1SessionsUrlPostApiResponse,
@@ -181,6 +194,7 @@ const injectedRtkApi = api.injectEndpoints({
         method: "POST",
         body: queryArg.urlUploadRequest,
       }),
+      invalidatesTags: ["sessions"],
     }),
     listParticipantsApiV1ParticipantsGet: build.query<
       ListParticipantsApiV1ParticipantsGetApiResponse,
@@ -514,6 +528,21 @@ export type CohortResponse = {
   id: number;
   created_at: string;
   updated_at: string;
+  sessions: {
+    action_items_json: string[];
+    cohort_id: number;
+    created_at: string;
+    id: number;
+    questions_asked_json: string[];
+    status: string;
+    summary: string;
+    talk_listen_ratios_json: { talk_ratio: number; listen_ratio: number };
+    title: string;
+    topics_json: string[];
+    transcription_url: string;
+    updated_at: string;
+    vcon_url: string;
+  }[];
 };
 export type ApiResponseListCohortResponse = {
   /** Response status: 'success' or 'failed' */
@@ -558,6 +587,11 @@ export type SessionResponse = {
   status: string;
   created_at: string;
   updated_at: string;
+  action_items_json: string[];
+  questions_asked_json: string[];
+  summary: string;
+  talk_listen_ratios_json: { talk_ratio: number; listen_ratio: number };
+  topics_json: string[];
 };
 export type ApiResponseListSessionResponse = {
   /** Response status: 'success' or 'failed' */

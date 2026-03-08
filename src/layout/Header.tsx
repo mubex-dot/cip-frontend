@@ -1,4 +1,11 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PlusIcon } from "lucide-react";
 import { NavLink } from "react-router";
 
 type Props = {
@@ -60,9 +67,21 @@ function Header({ drawerWidth, handleDrawerToggle }: Props) {
             );
           })}
         </ul>
-        <Avatar className="cursor-pointer">
-          <AvatarFallback></AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="cursor-pointer">
+              <AvatarFallback>SK</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="mt-2 w-56">
+            <DropdownMenuItem disabled>
+              Current organization: Skillup Kopa
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <PlusIcon /> Create organization
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

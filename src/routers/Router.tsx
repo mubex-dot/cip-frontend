@@ -119,7 +119,7 @@ const Router = () => {
           <Route index element={<Cohorts />} />
           <Route path=":cohort_id">
             <Route index element={<SingleCohort />} />
-            <Route path="session" element={<Session />} />
+            <Route path="session/:session_id" element={<Session />} />
           </Route>
         </Route>
         <Route path="/participants/1" element={<Participants />} />

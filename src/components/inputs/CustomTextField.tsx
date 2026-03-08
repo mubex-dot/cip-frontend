@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { FieldError } from "react-hook-form";
+import type { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { Field, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
@@ -11,7 +11,11 @@ interface CustomTextFieldProps {
   placeholder?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register?: any;
-  errorMessage?: FieldError | undefined;
+  errorMessage?:
+    | FieldError
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | Merge<FieldError, FieldErrorsImpl<any>>
+    | undefined;
   className?: string;
   value?: string | number;
   onChange?: (
@@ -83,7 +87,7 @@ const CustomTextField = ({
 
       {errorMessage?.message && (
         <p className="text-red-500 text-sm my-1 text-left">
-          {errorMessage.message}
+          {(errorMessage as FieldError).message}{" "}
         </p>
       )}
     </div>

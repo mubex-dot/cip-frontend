@@ -12,11 +12,6 @@ type Moment = {
   description: string;
 };
 
-type Action = {
-  title: string;
-  subtitle: string;
-};
-
 type Participant = {
   name: string;
   role?: string;
@@ -33,9 +28,11 @@ type Transcript = {
 type Props = {
   summary: string;
   moments: Moment[];
-  actions: Action[];
+  actions: string[];
   participants: Participant[];
   transcripts: Transcript[];
+  vconUrl?: string;
+  onDownloadTranscript: () => void; // Add this prop
 };
 
 const SessionTabs = ({
@@ -44,6 +41,8 @@ const SessionTabs = ({
   actions,
   participants,
   transcripts,
+  vconUrl,
+  onDownloadTranscript,
 }: Props) => {
   return (
     <Tabs defaultValue="summary" className="w-full">
@@ -70,7 +69,11 @@ const SessionTabs = ({
         </div>
         <div className="flex flex-col gap-4 w-full">
           <ParticipationBreakdown participants={participants} />
-          <TranscriptPreview transcripts={transcripts} />
+          <TranscriptPreview
+            transcripts={transcripts}
+            vconUrl={vconUrl}
+            onDownload={onDownloadTranscript}
+          />
         </div>
       </TabsContent>
 
@@ -89,7 +92,11 @@ const SessionTabs = ({
       </TabsContent>
 
       <TabsContent value="transcript">
-        <TranscriptPreview transcripts={transcripts} />
+        <TranscriptPreview
+          transcripts={transcripts}
+          vconUrl={vconUrl}
+          onDownload={onDownloadTranscript}
+        />
       </TabsContent>
 
       <TabsContent value="actions">

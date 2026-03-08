@@ -1,14 +1,9 @@
 import { CardContent, CardHeader } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
-
-type Action = {
-  title: string;
-  subtitle: string;
-};
+// import { Button } from "@/components/ui/button";
 
 type Props = {
-  actions: Action[];
+  actions: string[]; // Expect an array of strings
 };
 
 const ActionItems = ({ actions }: Props) => {
@@ -28,18 +23,18 @@ const ActionItems = ({ actions }: Props) => {
               <Checkbox />
 
               <div>
-                <p className="text-sm">{action.title}</p>
+                <p className="text-sm">{action}</p>
 
-                <p className="text-xs text-muted-foreground">
+                {/* <p className="text-xs text-muted-foreground">
                   {action.subtitle}
-                </p>
+                </p> */}
               </div>
             </div>
           ))}
 
-          <Button variant="outline" className="w-full mt-2">
+          {/* <Button variant="outline" className="w-full mt-2">
             View All 8 Actions
-          </Button>
+          </Button> */}
         </CardContent>
       </div>
     </div>
