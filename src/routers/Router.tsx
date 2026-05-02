@@ -10,25 +10,16 @@ import Dashboard from "@/pages/dashboard/Dashboard";
 import Cohorts from "@/pages/cohorts/Cohorts";
 import SingleCohort from "@/pages/cohorts/SingleCohort";
 import Session from "@/pages/cohorts/Session";
-import Participants from "@/pages/participants/Participants";
+// import Participants from "@/pages/participants/Participants";
 
 type ProtectedRouteProps = {
   user: any;
-  allowedRoles: string[];
   children: JSX.Element;
 };
 
-const ProtectedRoute = ({
-  user,
-  allowedRoles,
-  children,
-}: ProtectedRouteProps) => {
+const ProtectedRoute = ({ user, children }: ProtectedRouteProps) => {
   if (!user) {
     return <Navigate to="/" replace />;
-  }
-
-  if (!allowedRoles.includes(user.role)) {
-    return <Navigate to="/dashboard" replace />;
   }
 
   return children;
@@ -55,14 +46,14 @@ const Router = () => {
     //log the user back in with local storage data
     const userString = localStorage.getItem("user");
     const access_tokenString = localStorage.getItem("access_token");
-    // const refresh_tokenString = localStorage.getItem("refresh_token");
+    const refresh_tokenString = localStorage.getItem("refresh_token");
 
-    if (userString && access_tokenString && !user) {
+    if (userString && access_tokenString && refresh_tokenString && !user) {
       const user = JSON.parse(userString) as any;
       const access_token = JSON.parse(access_tokenString) as string;
-      // const refresh_token = JSON.parse(refresh_tokenString) as string;
+      const refresh_token = JSON.parse(refresh_tokenString) as string;
 
-      dispatch(login({ user, access_token }));
+      dispatch(login({ user, access_token, refresh_token }));
     }
     setIsAuthLoaded(true); // <-- set loaded after checking localStorage
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,26 +81,10 @@ const Router = () => {
         <Route path="/" element={<Login />} />
         <Route path="*" element={<h1>Url does not match</h1>} />
       </Route>
-      {/* Admin routes */}
-      {/* {currentUserRole === "admin" ? ( */}
       <Route
         //protected pages
         element={
-          <ProtectedRoute user={user} allowedRoles={["admin"]}>
-            <Layout />
-          </ProtectedRoute>
-        }
-      >
-        {/* <Route path="/dashboard" element={<AdminDashboard />} /> */}
-        {/* <Route path="/applications">
-          <Route index element={<Applications />} />
-          <Route path=":applicant_id" element={<ApplicationsOverview />} />
-        </Route> */}
-      </Route>
-      <Route
-        //protected pages
-        element={
-          <ProtectedRoute user={user} allowedRoles={["user"]}>
+          <ProtectedRoute user={user}>
             <Layout />
           </ProtectedRoute>
         }
@@ -122,7 +97,7 @@ const Router = () => {
             <Route path="session/:session_id" element={<Session />} />
           </Route>
         </Route>
-        <Route path="/participants/1" element={<Participants />} />
+        {/* <Route path="/participants/1" element={<Participants />} /> */}
       </Route>
       <Route path="*" element={<h1>404, page not found</h1>} />
     </Routes>

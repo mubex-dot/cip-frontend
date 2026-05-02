@@ -1,3 +1,7 @@
+import {
+  useGetMyOrganizationsQuery,
+  useSwitchOrganizationMutation,
+} from "@/app/app-apis/organizationApiSlice";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -5,7 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import CreateOrganizationModal from "@/pages/dashboard/components/CreateOrganizationModal";
 import { PlusIcon } from "lucide-react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "@/pages/auth/authSlice";
 import { NavLink } from "react-router";
 
 type Props = {
@@ -28,15 +36,50 @@ function Header({ drawerWidth, handleDrawerToggle }: Props) {
       text: "Cohorts",
       link: "/cohorts",
     },
-    {
-      text: "Participants",
-      link: "/participants/1",
-    },
+    // {
+    //   text: "Participants",
+    //   link: "/participants/1",
+    // },
     {
       text: "Settings",
       link: "/settings",
     },
   ];
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeOrgId, setActiveOrgId] = useState<number | null>(() => {
+    const storedActiveOrg = localStorage.getItem("active_organization_id");
+    return storedActiveOrg ? Number(storedActiveOrg) : null;
+  });
+  const { data: organizations, isLoading } = useGetMyOrganizationsQuery();
+  const [switchOrg] = useSwitchOrganizationMutation();
+  const dispatch = useDispatch();
+
+  const activeOrganization = organizations?.data?.find(
+    (organization) => organization.id === activeOrgId,
+  );
+
+  const switchOrganization = async (id: number) => {
+    try {
+      const newTokens = await switchOrg({ org_id: id }).unwrap();
+
+      if (newTokens?.data) {
+        dispatch(
+          setCredentials({
+            access_token: newTokens.data.access_token,
+            refresh_token: newTokens.data.refresh_token,
+          }),
+        );
+      }
+
+      localStorage.setItem("active_organization_id", JSON.stringify(id));
+      setActiveOrgId(id);
+      window.dispatchEvent(new Event("active_organization_changed"));
+    } catch (err) {
+      console.error("Failed to switch organizations:", err);
+      alert("Failed to switch organizations");
+    }
+  };
 
   return (
     <div
@@ -75,14 +118,36 @@ function Header({ drawerWidth, handleDrawerToggle }: Props) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="mt-2 w-56">
             <DropdownMenuItem disabled>
-              Current organization: Skillup Kopa
+              Current organization:{" "}
+              {activeOrganization?.name ?? "Select an organization"}
             </DropdownMenuItem>
-            <DropdownMenuItem>
+
+            {isLoading ? (
+              <DropdownMenuItem disabled>
+                Loading organizations…
+              </DropdownMenuItem>
+            ) : (
+              organizations?.data?.map((organization) => (
+                <DropdownMenuItem
+                  key={organization.id}
+                  onClick={() => switchOrganization(organization.id)}
+                >
+                  {organization.name}
+                </DropdownMenuItem>
+              ))
+            )}
+
+            <DropdownMenuItem onClick={() => setIsModalOpen(true)}>
               <PlusIcon /> Create organization
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      <CreateOrganizationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }

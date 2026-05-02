@@ -48,6 +48,7 @@ const Dashboard = () => {
               statsName={info.statName}
               statsNum={info.statNum}
               statsStat={info.statStat}
+              key={info.id}
             />
           ))}
         </div>

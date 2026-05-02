@@ -24,24 +24,16 @@ const Login = () => {
 
   const [errorMsg, setErrorMsg] = useState("");
 
-  const userData = {
-    id: 1,
-    email: "john@doe.com",
-    role: "user",
-    phone: "08123456789",
-    name: "John Doe",
-    profile_icon: "image",
-    joined_at: "10/10/10",
-  };
-
-  const simulateUserLogin = () => {
-    dispatch(login({ user: userData, access_token: "asdhjhfdfhjfdfghj" }));
-  };
-
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     try {
       const userData = await loginRequest(data).unwrap();
-      dispatch(login(userData));
+      dispatch(
+        login({
+          user: userData?.data?.user,
+          access_token: userData?.data?.tokens?.access_token,
+          refresh_token: userData?.data?.tokens?.refresh_token,
+        }),
+      );
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error", error);
@@ -92,11 +84,7 @@ const Login = () => {
               </a>
             </div>
 
-            <Button
-              onClick={simulateUserLogin}
-              disabled={isSubmitting}
-              className="w-full"
-            >
+            <Button disabled={isSubmitting} className="w-full" type="submit">
               {isSubmitting ? <Spinner /> : "Sign In"}
             </Button>
             {errorMsg && (

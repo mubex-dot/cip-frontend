@@ -1,30 +1,14 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { IconChevronDown, IconChevronRight } from "@tabler/icons-react";
 import { useState } from "react";
-import { useNavigate } from "react-router";
-
-type Session = {
-  action_items_json: string[];
-  cohort_id: number;
-  created_at: string;
-  id: number;
-  questions_asked_json: string[];
-  status: string;
-  summary: string;
-  talk_listen_ratios_json: { talk_ratio: number; listen_ratio: number };
-  title: string;
-  topics_json: string[];
-  transcription_url: string;
-  updated_at: string;
-  vcon_url: string;
-};
+import type { sessions } from "@/types/sessions.types";
 
 type SideBarProps = {
-  sessions: Session[] | undefined;
+  sessions: sessions | undefined;
+  onSessionClick?: () => void;
 };
 
-function SideBar({ sessions }: SideBarProps) {
-  const navigate = useNavigate();
+function SideBar({ sessions, onSessionClick }: SideBarProps) {
   const [isSessionsOpen, setIsSessionsOpen] = useState(false);
 
   // console.log(sessions);
@@ -36,7 +20,7 @@ function SideBar({ sessions }: SideBarProps) {
           {/* Overview Button */}
           <button
             className="w-full text-left px-4 py-3 rounded-md text-sm bg-primary text-primary-foreground font-medium"
-            onClick={() => navigate("/")}
+            // onClick={() => navigate("/")}
           >
             Overview
           </button>
@@ -60,12 +44,13 @@ function SideBar({ sessions }: SideBarProps) {
                 {sessions?.map((session) => (
                   <button
                     key={session.id}
-                    onClick={() => navigate(`session/${session.id}`)}
-                    disabled={session.status !== "completed"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSessionClick?.();
+                    }}
                     className="w-full text-left px-4 py-2 rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition truncate"
                   >
-                    {session.title || `Session ${session.id}`} ({session.status}
-                    )
+                    {session.title || `Session ${session.id}`} ({session.status})
                   </button>
                 ))}
               </div>

@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import CohortCard from "../dashboard/components/CohortCard";
-import { useListCohortsApiV1CohortsGetQuery } from "@/app/app-apis/appApiSlice";
 import { useState } from "react";
 import CreateCohortModal from "../dashboard/components/CreateCohortModal";
+import { useGetCohortsQuery } from "@/app/app-apis/cohortsApiSlice";
 
 const Cohorts = () => {
-  const { data } = useListCohortsApiV1CohortsGetQuery({});
+  const { data } = useGetCohortsQuery({});
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -26,6 +26,7 @@ const Cohorts = () => {
             topic={item.name}
             description={item?.description ? item.description : ""}
             nextDate={"Tomorrow 10AM"}
+            key={item.id}
           />
         ))}
       </div>

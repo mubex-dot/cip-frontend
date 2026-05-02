@@ -5,18 +5,20 @@ import SessionTimeline from "./components/SessionTimeline";
 import EngagementHeatmap from "./components/EngagementHeatmap";
 import MostDiscussed from "./components/MostDiscussed";
 import AddSessionModal from "./components/AddSessionModal";
+import SessionList from "./components/SessionList";
 import { useState } from "react";
 import { useParams } from "react-router";
-import { useGetCohortApiV1CohortsCohortIdGetQuery } from "@/app/app-apis/appApiSlice";
 import LinearProgress from "@/components/ui/LinearProgress";
+import { useGetSingleCohortQuery } from "@/app/app-apis/cohortsApiSlice";
 
 const SingleCohort = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSessionList, setShowSessionList] = useState(false);
   const { cohort_id } = useParams<{ cohort_id: string }>();
   const cohortId = Number(cohort_id);
 
-  const { data, isLoading } = useGetCohortApiV1CohortsCohortIdGetQuery(
-    { cohortId: cohortId },
+  const { data, isLoading } = useGetSingleCohortQuery(
+    { cohort_id: cohortId },
     { skip: !cohortId },
   );
 
@@ -42,12 +44,24 @@ const SingleCohort = () => {
           </div>
           <div className="flex justify-between gap-4 mt-4">
             <div className="w-1/4">
-              <Sidebar sessions={data?.data?.sessions} />
+              <Sidebar
+                sessions={data?.data?.sessions}
+                onSessionClick={() => setShowSessionList(true)}
+              />
             </div>
             <div className="w-3/4">
-              <EngagementHeatmap />
-              <SessionTimeline />
-              <MostDiscussed />
+              {showSessionList ? (
+                <SessionList
+                  sessions={data?.data?.sessions}
+                  onBack={() => setShowSessionList(false)}
+                />
+              ) : (
+                <>
+                  <EngagementHeatmap />
+                  <SessionTimeline />
+                  <MostDiscussed />
+                </>
+              )}
             </div>
           </div>
         </div>

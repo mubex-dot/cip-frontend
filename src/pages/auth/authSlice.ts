@@ -5,13 +5,13 @@ import type { RootState } from "../../app/store";
 interface UsersState {
   user: User | null;
   access_token: string;
-  // refresh_token: string;
+  refresh_token: string;
 }
 
 const initialState: UsersState = {
   user: null,
   access_token: "",
-  // refresh_token: "",
+  refresh_token: "",
 };
 
 const authSlice = createSlice({
@@ -19,14 +19,14 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action: PayloadAction<UsersState>) => {
-      const { access_token, user } = action.payload;
+      const { access_token, user, refresh_token } = action.payload;
       state.user = user;
       state.access_token = access_token;
-      // state.refresh_token = refresh_token;
+      state.refresh_token = refresh_token;
 
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("access_token", JSON.stringify(access_token));
-      // localStorage.setItem("refresh_token", JSON.stringify(refresh_token));
+      localStorage.setItem("refresh_token", JSON.stringify(refresh_token));
     },
 
     setAccessToken: (
@@ -38,16 +38,35 @@ const authSlice = createSlice({
       localStorage.setItem("access_token", JSON.stringify(access_token));
     },
 
+    setCredentials: (
+      state,
+      action: PayloadAction<{
+        access_token: string;
+        refresh_token: string;
+      }>,
+    ) => {
+      const { access_token, refresh_token } = action.payload;
+      state.access_token = access_token;
+      state.refresh_token = refresh_token;
+      localStorage.setItem("access_token", JSON.stringify(access_token));
+      localStorage.setItem("refresh_token", JSON.stringify(refresh_token));
+    },
+
     logout: (state) => {
       state.access_token = "";
-      // state.refresh_token = "";
+      state.refresh_token = "";
       state.user = null;
-      localStorage.clear();
+      localStorage.removeItem("user");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("active_organization_id");
     },
   },
 });
 
-export const { login, setAccessToken, logout } = authSlice.actions;
+export const { login, setAccessToken, setCredentials, logout } =
+  authSlice.actions;
 
 export const authReducer = authSlice.reducer;
 
@@ -55,5 +74,5 @@ export const authReducer = authSlice.reducer;
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 export const selectCurrentAccessToken = (state: RootState) =>
   state.auth.access_token;
-// export const selectCurrentRefreshToken = (state: RootState) =>
-//   state.auth.refresh_token;
+export const selectCurrentRefreshToken = (state: RootState) =>
+  state.auth.refresh_token;

@@ -8,14 +8,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import CustomTextField from "@/components/inputs/CustomTextField";
-import { useCreateCohortMutation } from "@/app/app-apis/cohortsApiSlice";
+import { useCreateOrganizationMutation } from "@/app/app-apis/organizationApiSlice";
 
-interface CreateCohortModalProps {
+interface CreateOrganizationModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const CreateCohortModal = ({ isOpen, onClose }: CreateCohortModalProps) => {
+const CreateOrganizationModal = ({
+  isOpen,
+  onClose,
+}: CreateOrganizationModalProps) => {
   const {
     register,
     handleSubmit,
@@ -23,18 +26,18 @@ const CreateCohortModal = ({ isOpen, onClose }: CreateCohortModalProps) => {
     reset,
   } = useForm();
 
-  const [createCohort, { isLoading }] = useCreateCohortMutation();
+  const [createOrganization, { isLoading }] = useCreateOrganizationMutation();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onSubmit = async (data: any) => {
     try {
-      await createCohort(data).unwrap();
+      await createOrganization(data).unwrap();
 
       reset();
       onClose();
     } catch (err) {
-      console.error("Failed to create cohort:", err);
-      alert("Failed to create cohort");
+      console.error("Failed to create organization:", err);
+      alert("Failed to create organization");
     }
   };
 
@@ -42,20 +45,20 @@ const CreateCohortModal = ({ isOpen, onClose }: CreateCohortModalProps) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-106.25">
         <DialogHeader>
-          <DialogTitle>Create New Cohort</DialogTitle>
+          <DialogTitle>Create New Organization</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
           <CustomTextField
-            label="Cohort Name"
-            placeholder="e.g. Design Systems 2024"
+            label="Organization Name"
+            placeholder="Your organization name..."
             register={register("name", { required: "Name is required" })}
             errorMessage={errors.name}
           />
           <CustomTextField
             type="textarea"
             label="Description"
-            placeholder="Enter cohort details..."
+            placeholder="Enter organization details..."
             register={register("description")}
           />
 
@@ -69,7 +72,7 @@ const CreateCohortModal = ({ isOpen, onClose }: CreateCohortModalProps) => {
               Cancel
             </Button>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Creating..." : "Create Cohort"}
+              {isLoading ? "Creating..." : "Create Organization"}
             </Button>
           </DialogFooter>
         </form>
@@ -78,4 +81,4 @@ const CreateCohortModal = ({ isOpen, onClose }: CreateCohortModalProps) => {
   );
 };
 
-export default CreateCohortModal;
+export default CreateOrganizationModal;
