@@ -29,6 +29,7 @@ function SideBar({ sessions, onSessionClick }: SideBarProps) {
           <div className="space-y-1">
             <button
               onClick={() => setIsSessionsOpen(!isSessionsOpen)}
+              // onClick={onSessionClick()} // NOTE: Comment this out and test when a session has been uploaded
               className="flex items-center justify-between w-full text-left px-4 py-3 rounded-md text-sm hover:bg-muted transition"
             >
               <span>Sessions ({sessions?.length})</span>
@@ -50,7 +51,8 @@ function SideBar({ sessions, onSessionClick }: SideBarProps) {
                     }}
                     className="w-full text-left px-4 py-2 rounded-md text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition truncate"
                   >
-                    {session.title || `Session ${session.id}`} ({session.status})
+                    {session.title || `Session ${session.id}`} ({session.status}
+                    )
                   </button>
                 ))}
               </div>

@@ -82,7 +82,8 @@ function SessionList({ sessions, onBack }: SessionListProps) {
           <DialogHeader>
             <DialogTitle>Delete Session</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this session? This action cannot be undone.
+              Are you sure you want to delete this session? This action cannot
+              be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
